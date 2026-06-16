@@ -3,255 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>生殖器組織学まとめ｜組織学実習資料</title>
+<title>組織学実習資料｜神戸常盤大学 医療検査学科</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
-    background: #f8fafc;
-    color: #1e293b;
-    min-height: 100vh;
-    padding: 24px 16px;
+    background: #f8fafc; color: #1e293b; min-height: 100vh;
+    padding: 40px 16px;
   }
   .container { max-width: 720px; margin: 0 auto; }
 
-  .header { margin-bottom: 24px; }
+  .header { margin-bottom: 40px; }
   .header-label {
     font-size: 11px; font-weight: 700; letter-spacing: 3px;
-    color: #94a3b8; text-transform: uppercase; margin-bottom: 6px;
+    color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;
   }
-  .header h1 { font-size: 22px; font-weight: 800; color: #0f172a; line-height: 1.3; }
-  .header p { font-size: 12px; color: #64748b; margin-top: 6px; }
+  .header h1 { font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1.3; }
+  .header p { font-size: 13px; color: #64748b; margin-top: 8px; }
 
-  .tabs { display: flex; gap: 8px; margin-bottom: 24px; }
-  .tab {
-    flex: 1; padding: 10px 0; border-radius: 10px; border: 2px solid #e2e8f0;
-    background: #fff; color: #64748b; font-weight: 700; font-size: 14px;
-    cursor: pointer; transition: all .15s; font-family: inherit;
-  }
-  .tab.active-female {
-    border-color: #c026d3; background: #fae8ff; color: #701a75;
-  }
-  .tab.active-male {
-    border-color: #2563eb; background: #dbeafe; color: #1e3a8a;
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    color: #94a3b8; text-transform: uppercase; margin-bottom: 12px;
   }
 
-  .organ-card {
-    margin-bottom: 12px; border-radius: 14px; border: 1.5px solid #e2e8f0;
-    overflow: hidden; background: #fff;
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 32px; }
+
+  .card {
+    display: block; text-decoration: none;
+    background: #fff; border-radius: 14px; border: 1.5px solid #e2e8f0;
+    padding: 20px; cursor: pointer; transition: all .15s;
   }
-  .organ-card.open-female { border-color: #e879f9; box-shadow: 0 4px 16px #c026d322; }
-  .organ-card.open-male   { border-color: #60a5fa; box-shadow: 0 4px 16px #2563eb22; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px #00000012; }
 
-  .organ-header {
-    width: 100%; display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 18px; background: #fff; border: none; cursor: pointer; text-align: left;
-    font-family: inherit;
+  .card-icon { font-size: 28px; margin-bottom: 12px; }
+  .card-title { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+  .card-sub { font-size: 11px; color: #94a3b8; font-style: italic; margin-bottom: 10px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag {
+    font-size: 10px; font-weight: 600; padding: 2px 8px;
+    border-radius: 20px;
   }
-  .organ-header.open-female { background: #fae8ff; }
-  .organ-header.open-male   { background: #dbeafe; }
 
-  .organ-name { font-size: 16px; font-weight: 800; }
-  .female .organ-name { color: #701a75; }
-  .male   .organ-name { color: #1e3a8a; }
-  .organ-en { font-size: 11px; color: #94a3b8; margin-left: 8px; font-style: italic; }
+  .card-reproductive { border-color: #e879f9; }
+  .card-reproductive:hover { box-shadow: 0 8px 24px #c026d322; }
+  .card-reproductive .card-title { color: #701a75; }
+  .card-reproductive .tag { background: #fae8ff; color: #701a75; }
 
-  .organ-arrow { font-size: 18px; font-weight: 700; transition: transform .2s; }
-  .female .organ-arrow { color: #c026d3; }
-  .male   .organ-arrow { color: #2563eb; }
-  .organ-arrow.open { transform: rotate(180deg); }
+  .card-digestive { border-color: #6ee7b7; }
+  .card-digestive:hover { box-shadow: 0 8px 24px #10b98122; }
+  .card-digestive .card-title { color: #065f46; }
+  .card-digestive .tag { background: #d1fae5; color: #065f46; }
 
-  .organ-body { padding: 0 12px 12px; display: none; }
-  .organ-body.open { display: block; }
-
-  .section-card {
-    margin-top: 8px; border-radius: 10px; border: 1px solid #f1f5f9; overflow: hidden;
+  .card-coming {
+    border-color: #e2e8f0; opacity: 0.5; cursor: default; pointer-events: none;
   }
-  .section-card.open-female { border-color: #e879f9; }
-  .section-card.open-male   { border-color: #60a5fa; }
+  .card-coming .card-title { color: #94a3b8; }
+  .card-coming .tag { background: #f1f5f9; color: #94a3b8; }
 
-  .section-header {
-    width: 100%; display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 14px; background: #f8fafc; border: none; cursor: pointer;
-    text-align: left; font-family: inherit;
-  }
-  .section-header.open-female { background: #c026d312; }
-  .section-header.open-male   { background: #2563eb12; }
-
-  .section-title { font-size: 13px; font-weight: 700; color: #334155; }
-  .section-title.open-female { color: #701a75; }
-  .section-title.open-male   { color: #1e3a8a; }
-
-  .section-arrow { font-size: 14px; transition: transform .2s; }
-  .female .section-arrow { color: #c026d3; }
-  .male   .section-arrow { color: #2563eb; }
-  .section-arrow.open { transform: rotate(90deg); }
-
-  .section-body { display: none; padding: 10px 14px 10px 28px; list-style: none; }
-  .section-body.open { display: block; }
-
-  .section-body li {
-    position: relative; font-size: 13px; color: #1e293b;
-    line-height: 1.7; padding-left: 12px; margin-bottom: 4px;
-  }
-  .section-body li::before {
-    content: ''; position: absolute; left: 0; top: 8px;
-    width: 5px; height: 5px; border-radius: 50%;
-  }
-  .female .section-body li::before { background: #c026d3; }
-  .male   .section-body li::before { background: #2563eb; }
-
-  .footer { text-align: center; font-size: 11px; color: #cbd5e1; margin-top: 20px; }
+  .footer { text-align: center; font-size: 11px; color: #cbd5e1; margin-top: 40px; }
 </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
-    <div class="header-label">Histology Reference — Reproductive System</div>
-    <h1>生殖器組織学まとめ</h1>
-    <p>組織学実習・臨床検査技師国家試験対応</p>
+    <div class="header-label">Histology Reference</div>
+    <h1>組織学実習資料</h1>
+    <p>臨床検査技師国家試験対応・医療検査学科</p>
   </div>
 
-  <div class="tabs">
-    <button class="tab active-female" onclick="switchTab('female')">♀ 女性生殖器</button>
-    <button class="tab" id="tab-male" onclick="switchTab('male')">♂ 男性生殖器</button>
+  <div class="section-label">系統を選択</div>
+  <div class="card-grid">
+    <a class="card card-reproductive" href="reproductive.html">
+      <div class="card-icon">🔬</div>
+      <div class="card-title">生殖器</div>
+      <div class="card-sub">Reproductive System</div>
+      <div class="card-tags">
+        <span class="tag">女性生殖器</span>
+        <span class="tag">男性生殖器</span>
+      </div>
+    </a>
+    <a class="card card-digestive" href="digestive.html">
+      <div class="card-icon">🔬</div>
+      <div class="card-title">消化器</div>
+      <div class="card-sub">Digestive System</div>
+      <div class="card-tags">
+        <span class="tag">唾液腺</span>
+        <span class="tag">消化管</span>
+      </div>
+    </a>
+    <div class="card card-coming">
+      <div class="card-icon">🔬</div>
+      <div class="card-title">泌尿器</div>
+      <div class="card-sub">Urinary System</div>
+      <div class="card-tags"><span class="tag">準備中</span></div>
+    </div>
+    <div class="card card-coming">
+      <div class="card-icon">🔬</div>
+      <div class="card-title">循環器</div>
+      <div class="card-sub">Cardiovascular System</div>
+      <div class="card-tags"><span class="tag">準備中</span></div>
+    </div>
   </div>
 
-  <div id="content"></div>
   <div class="footer">臨床検査学科 組織学実習資料</div>
 </div>
-
-<script>
-const data = {
-  female: [
-    {
-      organ: "子宮頸部", en: "Cervix uteri",
-      sections: [
-        { title: "外子宮口・扁平上皮部（外頸部）", items: ["重層扁平上皮（非角化性）が被覆","基底層 → 傍基底層 → 中間層 → 表層の成熟過程","表層細胞は核濃縮＋糖原を豊富に含む（PAS陽性）"] },
-        { title: "頸管粘膜（内頸部）", items: ["単層円柱上皮（粘液産生細胞）","粘液は淡明・泡沫状（HE染色で淡染）","腺窩（crypts）：陥入構造、真の腺ではない","間質は線維性結合組織＋少量平滑筋"] },
-        { title: "扁平円柱上皮境界（SCJ）", items: ["移行帯（transformation zone）：異形成・癌の好発部位","扁平上皮化生（squamous metaplasia）が生理的に生じる","予備細胞（reserve cells）が化生の起源"] },
-        { title: "臨床検査・細胞診のポイント", items: ["Pap smear：SCJからの採取が必須","コイロサイト（HPV感染）：核周囲空胞＋核異型","CIN（頸部上皮内腫瘍）：基底側から上皮内に異型細胞"] }
-      ]
-    },
-    {
-      organ: "子宮体部", en: "Corpus uteri",
-      sections: [
-        { title: "子宮内膜", items: ["機能層（stratum functionale）：月経で脱落","基底層（stratum basale）：脱落せず、再生の起源","腺上皮：単層円柱上皮（増殖期＝直管腺、分泌期＝鋸歯状・螺旋腺）","間質：紡錘形細胞、血管（渦巻き動脈）豊富"] },
-        { title: "月経周期による変化", items: ["増殖期（卵胞期）：腺上皮核分裂増加、間質浮腫","分泌期（黄体期）：核下空胞→核上空胞→腺腔内分泌物蓄積","月経期：フィブリン血栓＋壊死組織＋好中球浸潤"] },
-        { title: "子宮筋層", items: ["平滑筋束が縦・輪・斜に交錯（3層構造）","筋腫（leiomyoma）：良性、渦巻き状配列、マッソン染色で識別しやすい"] },
-        { title: "臨床検査・細胞診のポイント", items: ["子宮内膜癌（類内膜癌 type I）：増殖期様の異型腺管が密集","漿液性癌（type II）：乳頭状構造＋強い核異型","内膜細胞診：核肥大・核小体明瞭・細胞質少量"] }
-      ]
-    },
-    {
-      organ: "卵管", en: "Uterine tube (Fallopian tube)",
-      sections: [
-        { title: "壁の構造", items: ["粘膜：複雑な縦走ひだ（最も発達：膨大部）","上皮：単層円柱上皮（線毛細胞＋分泌細胞＋楔状細胞）","固有筋層：内輪・外縦の平滑筋","漿膜：中皮（単層扁平）"] },
-        { title: "部位別特徴", items: ["間質部：粘膜ひだ少、管腔最狭","峡部：壁厚、筋層発達","膨大部：粘膜ひだ最も複雑、受精の場","漏斗部（采部）：采（fimbriae）が卵子捕捉"] },
-        { title: "臨床検査のポイント", items: ["異所性妊娠（子宮外妊娠）：膨大部に最多","卵管炎：粘膜ひだの癒合・消失、好中球浸潤"] }
-      ]
-    },
-    {
-      organ: "卵巣", en: "Ovary",
-      sections: [
-        { title: "皮質", items: ["表層上皮（胚上皮）：単層立方〜扁平上皮","白膜（tunica albuginea）：線維性結合組織","卵胞の発育段階：原始卵胞→一次卵胞→二次卵胞→グラーフ卵胞","顆粒膜細胞（granulosa cells）：卵胞壁を形成、エストロゲン産生","莢膜細胞（theca cells）：内・外莢膜、アンドロゲン産生（→顆粒膜でE2変換）"] },
-        { title: "黄体・白体", items: ["黄体（corpus luteum）：排卵後、顆粒膜黄体化細胞＋莢膜黄体化細胞","顆粒膜黄体化細胞：大型、淡明細胞質、プロゲステロン産生","白体（corpus albicans）：黄体退縮後の硝子化瘢痕"] },
-        { title: "髄質", items: ["血管・リンパ管・神経豊富な疎性結合組織","門細胞（hilus cells）：アンドロゲン産生（Reinke結晶は少量）"] },
-        { title: "臨床検査のポイント", items: ["嚢胞性腫瘍：漿液性（単純上皮）・粘液性（杯細胞様）の上皮型識別重要","顆粒膜細胞腫：Call-Exner小体（微小卵胞様構造）が特徴","胚細胞腫瘍：未熟奇形腫、ディスゲルミノーマ等"] }
-      ]
-    }
-  ],
-  male: [
-    {
-      organ: "精巣", en: "Testis",
-      sections: [
-        { title: "精細管（seminiferous tubule）", items: ["精子形成上皮：精祖細胞→精母細胞→精子細胞→精子","セルトリ細胞（Sertoli cells）：精細管内腔まで達する、血液精巣関門（BTB）形成","BTB：セルトリ細胞間tight junction、減数分裂細胞を免疫から隔離","精子完成（spermiation）：精子頭部の核濃縮・先体形成・鞭毛形成"] },
-        { title: "間質（ライディッヒ細胞）", items: ["ライディッヒ細胞（Leydig cells）：精細管間に散在、多角形・好酸性","テストステロン産生（LH刺激）","Reinke結晶：棒状ないし六角形の細胞内結晶（電顕レベル、光顕では稀）"] },
-        { title: "精巣上体・精管", items: ["精巣上体上皮：偽重層円柱上皮＋静線毛（stereocilia）","精管：三層の平滑筋（内縦・中輪・外縦）、強い蠕動で精子輸送"] },
-        { title: "臨床検査のポイント", items: ["精巣腫瘍：胚細胞腫瘍が95%（セミノーマ・非セミノーマ）","セミノーマ：大型均一な細胞＋リンパ球浸潤","不妊：精液検査、精子形成能評価に組織所見が重要"] }
-      ]
-    },
-    {
-      organ: "前立腺", en: "Prostate",
-      sections: [
-        { title: "腺構造", items: ["複合管状胞状腺：単層〜偽重層円柱上皮（分泌細胞）＋基底細胞","基底細胞：小型扁平、CK5/6陽性、幹細胞的役割","前立腺小体（corpora amylacea）：同心円状石灰化物、加齢で増加","間質：線維筋性間質（平滑筋＋膠原線維）が豊富"] },
-        { title: "区域（zone）別", items: ["移行域（TZ）：BPH（良性前立腺過形成）の好発部位","辺縁域（PZ）：腺癌の好発部位（約70%）","中心域（CZ）：射精管周囲、癌は少ない"] },
-        { title: "臨床検査のポイント", items: ["PSA（前立腺特異抗原）：腺上皮細胞が産生、血清マーカー","前立腺癌：腺管構造の異型・浸潤、Gleason grading（腺管パターンで5段階）","BPH：移行域の腺管＋平滑筋の過形成、基底細胞保持","PIN（前立腺上皮内腫瘍）：基底細胞層残存＋核異型"] }
-      ]
-    }
-  ]
-};
-
-let currentTab = 'female';
-const openOrgans = {};
-const openSections = {};
-
-function switchTab(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.tab').forEach(t => {
-    t.className = 'tab';
-    if (t.id === 'tab-male' && tab === 'male') t.classList.add('active-male');
-    if (!t.id && tab === 'female') t.classList.add('active-female');
-  });
-  render();
-}
-
-function toggleOrgan(key) {
-  openOrgans[key] = !openOrgans[key];
-  render();
-}
-
-function toggleSection(key) {
-  openSections[key] = !openSections[key];
-  render();
-}
-
-function render() {
-  const items = data[currentTab];
-  const gender = currentTab;
-  let html = '';
-
-  items.forEach((organ, oi) => {
-    const oKey = `${gender}-${oi}`;
-    const isOpen = !!openOrgans[oKey];
-    const openClass = isOpen ? `open-${gender}` : '';
-
-    html += `
-      <div class="organ-card ${gender} ${openClass}">
-        <button class="organ-header ${openClass}" onclick="toggleOrgan('${oKey}')">
-          <div>
-            <span class="organ-name">${organ.organ}</span>
-            <span class="organ-en">${organ.en}</span>
-          </div>
-          <span class="organ-arrow ${isOpen ? 'open' : ''}">▾</span>
-        </button>
-        <div class="organ-body ${isOpen ? 'open' : ''}">
-    `;
-
-    organ.sections.forEach((sec, si) => {
-      const sKey = `${oKey}-${si}`;
-      const secOpen = !!openSections[sKey];
-      const secOpenClass = secOpen ? `open-${gender}` : '';
-
-      html += `
-        <div class="section-card ${secOpenClass}">
-          <button class="section-header ${secOpenClass}" onclick="toggleSection('${sKey}')">
-            <span class="section-title ${secOpenClass}">${sec.title}</span>
-            <span class="section-arrow ${secOpen ? 'open' : ''}">▶</span>
-          </button>
-          <ul class="section-body ${secOpen ? 'open' : ''}">
-            ${sec.items.map(item => `<li>${item}</li>`).join('')}
-          </ul>
-        </div>
-      `;
-    });
-
-    html += `</div></div>`;
-  });
-
-  document.getElementById('content').innerHTML = html;
-}
-
-render();
-</script>
 </body>
 </html>

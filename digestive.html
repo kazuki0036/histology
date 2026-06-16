@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>消化器｜組織学実習資料</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif; background: #f8fafc; color: #1e293b; min-height: 100vh; padding: 24px 16px; }
+  .container { max-width: 720px; margin: 0 auto; }
+  .back { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #64748b; text-decoration: none; margin-bottom: 20px; }
+  .back:hover { color: #1e293b; }
+  .header { margin-bottom: 24px; }
+  .header-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #94a3b8; text-transform: uppercase; margin-bottom: 6px; }
+  .header h1 { font-size: 22px; font-weight: 800; color: #0f172a; line-height: 1.3; }
+  .header p { font-size: 12px; color: #64748b; margin-top: 6px; }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 24px; }
+  .tab { flex: 1; padding: 10px 0; border-radius: 10px; border: 2px solid #e2e8f0; background: #fff; color: #64748b; font-weight: 700; font-size: 13px; cursor: pointer; transition: all .15s; font-family: inherit; }
+  .tab.active { border-color: #10b981; background: #d1fae5; color: #065f46; }
+
+  .organ-card { margin-bottom: 12px; border-radius: 14px; border: 1.5px solid #e2e8f0; overflow: hidden; background: #fff; }
+  .organ-card.open { border-color: #6ee7b7; box-shadow: 0 4px 16px #10b98122; }
+  .organ-header { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: #fff; border: none; cursor: pointer; text-align: left; font-family: inherit; }
+  .organ-header.open { background: #d1fae5; }
+  .organ-name { font-size: 16px; font-weight: 800; color: #065f46; }
+  .organ-en { font-size: 11px; color: #94a3b8; margin-left: 8px; font-style: italic; }
+  .organ-arrow { font-size: 18px; font-weight: 700; color: #10b981; transition: transform .2s; }
+  .organ-arrow.open { transform: rotate(180deg); }
+  .organ-body { padding: 0 12px 12px; display: none; }
+  .organ-body.open { display: block; }
+  .section-card { margin-top: 8px; border-radius: 10px; border: 1px solid #f1f5f9; overflow: hidden; }
+  .section-card.open { border-color: #6ee7b7; }
+  .section-header { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #f8fafc; border: none; cursor: pointer; text-align: left; font-family: inherit; }
+  .section-header.open { background: #10b98112; }
+  .section-title { font-size: 13px; font-weight: 700; color: #334155; }
+  .section-title.open { color: #065f46; }
+  .section-arrow { font-size: 14px; color: #10b981; transition: transform .2s; }
+  .section-arrow.open { transform: rotate(90deg); }
+  .section-body { display: none; padding: 10px 14px 10px 28px; list-style: none; }
+  .section-body.open { display: block; }
+  .section-body li { position: relative; font-size: 13px; color: #1e293b; line-height: 1.7; padding-left: 12px; margin-bottom: 4px; }
+  .section-body li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: #10b981; }
+  .footer { text-align: center; font-size: 11px; color: #cbd5e1; margin-top: 20px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← 系統一覧に戻る</a>
+  <div class="header">
+    <div class="header-label">Digestive System</div>
+    <h1>消化器組織学まとめ</h1>
+    <p>組織学実習・臨床検査技師国家試験対応</p>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('salivary')" id="tab-salivary">唾液腺</button>
+    <button class="tab" onclick="switchTab('tract')" id="tab-tract">消化管</button>
+  </div>
+  <div id="content"></div>
+  <div class="footer">臨床検査学科 組織学実習資料</div>
+</div>
+<script>
+const data = {
+  salivary: [
+    { organ:"耳下腺", en:"Parotid gland", sections:[
+      { title:"腺房", items:["純漿液腺（serous gland）：唾液腺中で最も大きい","漿液細胞：錐体形、好酸性顆粒（酵素顆粒）豊富、基底側に扁平な核","アミラーゼ（α-amylase）を主に分泌"] },
+      { title:"導管系", items:["介在部導管（intercalated duct）：細く短い","線条部導管（striated duct）：基底側に縦線条（ミトコンドリア豊富）、水・電解質の再吸収","排泄管：移行上皮→重層扁平上皮"] },
+      { title:"臨床検査のポイント", items:["ムンプスウイルス（流行性耳下腺炎）の好発部位","耳下腺腫瘍：多形腺腫（最多）、ワルチン腫瘍（リンパ球浸潤＋嚢胞性）","血清アミラーゼ上昇：耳下腺炎・膵炎の鑑別に重要"] }
+    ]},
+    { organ:"顎下腺", en:"Submandibular gland", sections:[
+      { title:"腺房", items:["混合腺（漿液腺優位）：漿液腺房＋粘液腺房","漿液半月（serous demilune）：粘液腺房に漿液細胞が帽状に付着","粘液細胞：明るい細胞質、扁平な核が基底側に圧排"] },
+      { title:"導管系", items:["線条部導管が発達（耳下腺より太く長い）","Wharton管：口腔底に開口"] },
+      { title:"臨床検査のポイント", items:["唾石（sialolithiasis）：Wharton管に最多（約80%）","唾石はカルシウム塩の沈着、X線・CT・超音波で検出"] }
+    ]},
+    { organ:"舌下腺", en:"Sublingual gland", sections:[
+      { title:"腺房", items:["混合腺（粘液腺優位）：粘液腺房が大部分を占める","漿液半月は少ない","粘液分泌が主体：潤滑・保護機能"] },
+      { title:"導管系", items:["短い独自の排泄管（Rivinus管）が複数存在","一部はWharton管に合流"] },
+      { title:"3大唾液腺の比較", items:["漿液腺：耳下腺 > 顎下腺 > 舌下腺","粘液腺：舌下腺 > 顎下腺 > 耳下腺","線条部導管の発達：耳下腺・顎下腺 > 舌下腺"] }
+    ]}
+  ],
+  tract: [
+    { organ:"食道", en:"Esophagus", sections:[
+      { title:"壁の構造（4層）", items:["粘膜：重層扁平上皮（非角化性）＋粘膜固有層＋粘膜筋板","粘膜下層：食道腺（粘液腺）散在、Meissner神経叢","筋層：内輪・外縦（上部1/3=横紋筋、中部=混合、下部1/3=平滑筋）","外膜：線維膜（漿膜なし）"] },
+      { title:"特徴的構造", items:["食道腺（esophageal glands）：粘膜下層に散在する純粘液腺","食道腺固有（cardiac glands）：上下端の粘膜固有層に存在","粘膜筋板：縦走平滑筋（消化管で食道のみ縦走）"] },
+      { title:"臨床検査のポイント", items:["Barrett食道：下部食道の扁平上皮が円柱上皮に化生（腺癌リスク）","食道癌：扁平上皮癌（上中部）vs 腺癌（下部）","アカラシア：下部食道括約筋の弛緩障害、Auerbach神経叢の変性"] }
+    ]},
+    { organ:"胃", en:"Stomach", sections:[
+      { title:"壁の構造", items:["粘膜：表面上皮（粘液産生単層円柱上皮）＋胃小窩（gastric pit）＋胃腺","粘膜下層：Meissner神経叢、血管・リンパ管豊富","筋層：内斜・中輪・外縦の3層（消化管中唯一）","漿膜：中皮（単層扁平上皮）"] },
+      { title:"胃腺の細胞（胃体部・胃底部）", items:["主細胞（chief cells）：ペプシノゲン分泌、好塩基性（RER豊富）","壁細胞（parietal cells）：塩酸・内因子分泌、好酸性（ミトコンドリア豊富）、細管小管系","粘液頸細胞：粘液分泌、幹細胞的役割","G細胞（幽門腺）：ガストリン分泌（内分泌細胞）"] },
+      { title:"部位別腺の違い", items:["胃底腺（fundic glands）：主細胞＋壁細胞が豊富、胃体部・胃底部","幽門腺（pyloric glands）：粘液細胞主体、ガストリン分泌G細胞含む","噴門腺（cardiac glands）：粘液腺のみ"] },
+      { title:"臨床検査のポイント", items:["Helicobacter pylori：胃粘膜表層に定着、ウレアーゼ産生、胃炎・潰瘍・癌の原因","胃癌：腸型（腸上皮化生を経る）vs びまん型（印環細胞癌）","内因子欠乏→ビタミンB12吸収障害→悪性貧血"] }
+    ]},
+    { organ:"十二指腸", en:"Duodenum", sections:[
+      { title:"特徴的構造", items:["Brunner腺（十二指腸腺）：粘膜下層に存在（小腸中唯一）、アルカリ性粘液分泌","Vater乳頭（大十二指腸乳頭）：総胆管・膵管の開口部","絨毛（villi）：最も発達（高く密）"] },
+      { title:"上皮細胞", items:["吸収上皮細胞：微絨毛（刷子縁）＋糖衣（glycocalyx）、消化・吸収","杯細胞（goblet cells）：粘液分泌、小腸では十二指腸で最少","Paneth細胞：陰窩底部に存在、リゾチーム・ディフェンシン分泌（抗菌）"] },
+      { title:"臨床検査のポイント", items:["十二指腸潰瘍：H. pylori・NSAIDsが主因、Brunner腺過形成を伴うことあり","吸収不良症候群：絨毛萎縮（セリアック病など）で診断"] }
+    ]},
+    { organ:"小腸", en:"Small intestine", sections:[
+      { title:"共通構造", items:["絨毛＋陰窩（Lieberkühn陰窩）：表面積を拡大","輪状ひだ（Kerckring弁）：粘膜＋粘膜下層が形成（空腸で最大）","粘膜筋板：内輪・外縦の薄い平滑筋層"] },
+      { title:"空腸の特徴", items:["輪状ひだ最も発達（吸収面積最大）","絨毛：長く密、杯細胞は十二指腸より多い","Peyer板なし（あるいは少ない）"] },
+      { title:"回腸の特徴", items:["Peyer板（集合リンパ小節）：腸間膜付着対側の粘膜に存在、免疫応答","M細胞：Peyer板上皮に存在、抗原取り込み・輸送","杯細胞：空腸より多い、輪状ひだは減少"] },
+      { title:"臨床検査のポイント", items:["Crohn病：小腸〜大腸の全層性肉芽腫性炎、非乾酪性肉芽腫","腸チフス：Peyer板の壊死・潰瘍、Salmonella typhi感染","吸収不良：脂肪便、ビタミン欠乏"] }
+    ]},
+    { organ:"大腸", en:"Large intestine", sections:[
+      { title:"構造的特徴", items:["絨毛なし（粘膜面は平坦）","陰窩（Lieberkühn陰窩）が深く発達","杯細胞が豊富（粘液産生が主機能）","腸間膜ひも（taenia coli）：外縦筋が3本の帯に集まる"] },
+      { title:"上皮細胞", items:["吸収上皮細胞：水・電解質の吸収（微絨毛は小腸より短い）","杯細胞：大腸で最多、粘液により便の移送を助ける","内分泌細胞：セロトニン産生細胞（EC細胞）など"] },
+      { title:"部位別特徴", items:["盲腸・虫垂：リンパ組織豊富（虫垂はリンパ器官的性格）","結腸：陰窩が規則正しく配列","直腸：陰窩深く、杯細胞多い、歯状線以下で重層扁平上皮に移行"] },
+      { title:"臨床検査のポイント", items:["大腸癌：腺癌が大部分、左側結腸・直腸に多い","潰瘍性大腸炎：粘膜・粘膜下層限局の炎症、陰窩膿瘍・杯細胞減少","過形成ポリープ vs 腺腫：鋸歯状構造の評価が重要"] }
+    ]}
+  ]
+};
+
+let currentTab = 'salivary';
+const openOrgans = {}, openSections = {};
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  render();
+}
+
+function toggleOrgan(key) { openOrgans[key] = !openOrgans[key]; render(); }
+function toggleSection(key) { openSections[key] = !openSections[key]; render(); }
+
+function render() {
+  const items = data[currentTab];
+  let html = '';
+  items.forEach((organ, oi) => {
+    const oKey = `${currentTab}-${oi}`, isOpen = !!openOrgans[oKey];
+    html += `<div class="organ-card ${isOpen?'open':''}"><button class="organ-header ${isOpen?'open':''}" onclick="toggleOrgan('${oKey}')"><div><span class="organ-name">${organ.organ}</span><span class="organ-en">${organ.en}</span></div><span class="organ-arrow ${isOpen?'open':''}">▾</span></button><div class="organ-body ${isOpen?'open':''}">`;
+    organ.sections.forEach((sec, si) => {
+      const sKey = `${oKey}-${si}`, secOpen = !!openSections[sKey];
+      html += `<div class="section-card ${secOpen?'open':''}"><button class="section-header ${secOpen?'open':''}" onclick="toggleSection('${sKey}')"><span class="section-title ${secOpen?'open':''}">${sec.title}</span><span class="section-arrow ${secOpen?'open':''}">▶</span></button><ul class="section-body ${secOpen?'open':''}">${sec.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;
+    });
+    html += `</div></div>`;
+  });
+  document.getElementById('content').innerHTML = html;
+}
+render();
+</script>
+</body>
+</html>
