@@ -4,76 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>生殖器｜組織学実習資料</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
-    background: #f8fafc; color: #1e293b; min-height: 100vh; padding: 24px 16px;
-  }
-  .container { max-width: 720px; margin: 0 auto; }
-  .back { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #64748b; text-decoration: none; margin-bottom: 20px; }
-  .back:hover { color: #1e293b; }
-  .header { margin-bottom: 24px; }
-  .header-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #94a3b8; text-transform: uppercase; margin-bottom: 6px; }
-  .header h1 { font-size: 22px; font-weight: 800; color: #0f172a; line-height: 1.3; }
-  .header p { font-size: 12px; color: #64748b; margin-top: 6px; }
-  .tabs { display: flex; gap: 8px; margin-bottom: 24px; }
-  .tab { flex: 1; padding: 10px 0; border-radius: 10px; border: 2px solid #e2e8f0; background: #fff; color: #64748b; font-weight: 700; font-size: 14px; cursor: pointer; transition: all .15s; font-family: inherit; }
-  .tab.active-female { border-color: #c026d3; background: #fae8ff; color: #701a75; }
-  .tab.active-male { border-color: #2563eb; background: #dbeafe; color: #1e3a8a; }
-  .organ-card { margin-bottom: 12px; border-radius: 14px; border: 1.5px solid #e2e8f0; overflow: hidden; background: #fff; }
-  .organ-card.open-female { border-color: #e879f9; box-shadow: 0 4px 16px #c026d322; }
-  .organ-card.open-male { border-color: #60a5fa; box-shadow: 0 4px 16px #2563eb22; }
-  .organ-header { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: #fff; border: none; cursor: pointer; text-align: left; font-family: inherit; }
-  .organ-header.open-female { background: #fae8ff; }
-  .organ-header.open-male { background: #dbeafe; }
-  .organ-name { font-size: 16px; font-weight: 800; }
-  .female .organ-name { color: #701a75; }
-  .male .organ-name { color: #1e3a8a; }
-  .organ-en { font-size: 11px; color: #94a3b8; margin-left: 8px; font-style: italic; }
-  .organ-arrow { font-size: 18px; font-weight: 700; transition: transform .2s; }
-  .female .organ-arrow { color: #c026d3; }
-  .male .organ-arrow { color: #2563eb; }
-  .organ-arrow.open { transform: rotate(180deg); }
-  .organ-body { padding: 0 12px 12px; display: none; }
-  .organ-body.open { display: block; }
-  .section-card { margin-top: 8px; border-radius: 10px; border: 1px solid #f1f5f9; overflow: hidden; }
-  .section-card.open-female { border-color: #e879f9; }
-  .section-card.open-male { border-color: #60a5fa; }
-  .section-header { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #f8fafc; border: none; cursor: pointer; text-align: left; font-family: inherit; }
-  .section-header.open-female { background: #c026d312; }
-  .section-header.open-male { background: #2563eb12; }
-  .section-title { font-size: 13px; font-weight: 700; color: #334155; }
-  .section-title.open-female { color: #701a75; }
-  .section-title.open-male { color: #1e3a8a; }
-  .section-arrow { font-size: 14px; transition: transform .2s; }
-  .female .section-arrow { color: #c026d3; }
-  .male .section-arrow { color: #2563eb; }
-  .section-arrow.open { transform: rotate(90deg); }
-  .section-body { display: none; padding: 10px 14px 10px 28px; list-style: none; }
-  .section-body.open { display: block; }
-  .section-body li { position: relative; font-size: 13px; color: #1e293b; line-height: 1.7; padding-left: 12px; margin-bottom: 4px; }
-  .section-body li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; }
-  .female .section-body li::before { background: #c026d3; }
-  .male .section-body li::before { background: #2563eb; }
-  .footer { text-align: center; font-size: 11px; color: #cbd5e1; margin-top: 20px; }
-</style>
+<link rel="stylesheet" href="common.css">
 </head>
-<body>
+<body class="theme-reproductive">
 <div class="container">
   <a class="back" href="index.html">← 系統一覧に戻る</a>
-  <div class="header">
-    <div class="header-label">Reproductive System</div>
+  <div class="page-header">
+    <div class="page-header-label">Reproductive System</div>
     <h1>生殖器組織学まとめ</h1>
     <p>組織学実習・臨床検査技師国家試験対応</p>
   </div>
   <div class="tabs">
-    <button class="tab active-female" onclick="switchTab('female')">♀ 女性生殖器</button>
-    <button class="tab" id="tab-male" onclick="switchTab('male')">♂ 男性生殖器</button>
+    <button class="tab active" onclick="switchTab('female')" id="tab-female">♀ 女性生殖器</button>
+    <button class="tab" onclick="switchTab('male')" id="tab-male">♂ 男性生殖器</button>
   </div>
   <div id="content"></div>
-  <div class="footer">臨床検査学科 組織学実習資料</div>
 </div>
+<script src="common.js"></script>
 <script>
 const data = {
   female: [
@@ -115,34 +62,16 @@ const data = {
     ]}
   ]
 };
-let currentTab='female';
-const openOrgans={}, openSections={};
-function switchTab(tab){
-  currentTab=tab;
-  document.querySelectorAll('.tab').forEach(t=>{
-    t.className='tab';
-    if(t.id==='tab-male'&&tab==='male') t.classList.add('active-male');
-    if(!t.id&&tab==='female') t.classList.add('active-female');
-  });
-  render();
+
+let currentTab = 'female';
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  buildAccordion(data[tab], tab);
 }
-function toggleOrgan(key){ openOrgans[key]=!openOrgans[key]; render(); }
-function toggleSection(key){ openSections[key]=!openSections[key]; render(); }
-function render(){
-  const items=data[currentTab], gender=currentTab;
-  let html='';
-  items.forEach((organ,oi)=>{
-    const oKey=`${gender}-${oi}`, isOpen=!!openOrgans[oKey], oc=isOpen?`open-${gender}`:'';
-    html+=`<div class="organ-card ${gender} ${oc}"><button class="organ-header ${oc}" onclick="toggleOrgan('${oKey}')"><div><span class="organ-name">${organ.organ}</span><span class="organ-en">${organ.en}</span></div><span class="organ-arrow ${isOpen?'open':''}">▾</span></button><div class="organ-body ${isOpen?'open':''}">`;
-    organ.sections.forEach((sec,si)=>{
-      const sKey=`${oKey}-${si}`, secOpen=!!openSections[sKey], sc=secOpen?`open-${gender}`:'';
-      html+=`<div class="section-card ${sc}"><button class="section-header ${sc}" onclick="toggleSection('${sKey}')"><span class="section-title ${sc}">${sec.title}</span><span class="section-arrow ${secOpen?'open':''}">▶</span></button><ul class="section-body ${secOpen?'open':''}">${sec.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;
-    });
-    html+=`</div></div>`;
-  });
-  document.getElementById('content').innerHTML=html;
-}
-render();
+insertFooter();
+buildAccordion(data['female'], 'female');
 </script>
 </body>
 </html>
